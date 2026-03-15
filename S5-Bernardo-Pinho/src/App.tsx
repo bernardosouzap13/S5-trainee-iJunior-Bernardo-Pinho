@@ -1,29 +1,19 @@
 import './App.css'
-import { useState } from 'react'
-import Header from './components/Header'
-import ServiceCard from './components/ServiceCard'
-import NewServiceForm from './components/NewServiceForm'
-
-interface ServiceProps {
-  titulo: string;
-  cliente: string;
-  descricao: string;
-}
+import { BrowserRouter, Routes, Route } from 'react-router'
+import Layout from './components/Outlet'
+import OrdensDeServico from './components/OrdensDeServico'
+import Clients from './components/Clients'
 
 function App() {
-  const [servicos, setServicos] = useState<ServiceProps[]>([])
-
-  const adicionarServico = (servico: ServiceProps) => {
-    setServicos([...servicos, servico])
-  }
   return (
-    <>
-    <Header/>
-    <NewServiceForm NovoServico={adicionarServico} />
-      {servicos.map((servico, index) => (
-        <ServiceCard key={index} {...servico} />
-    ))}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<OrdensDeServico />} />
+          <Route path="/clients" element={<Clients />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

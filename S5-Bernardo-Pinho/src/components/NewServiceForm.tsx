@@ -1,37 +1,30 @@
 import {useState} from 'react'
-
-interface ServiceProps {
-  titulo: string;
-  cliente: string;
-  descricao: string;
-}
+import type { CreateServicePropsData } from '../types'
 
 interface Props {
-  NovoServico: (servico: ServiceProps) => void
+  NewService: (servico: CreateServicePropsData) => void
 }
 
-const NewServiceForm = ({ NovoServico }: Props) => {
-  const [titulo, setTitulo] = useState('')
-  const [cliente, setCliente] = useState('')
-  const [descricao, setDescricao] = useState('')
+const NewServiceForm = ({ NewService}: Props) => {
+  const [device, setDevice] = useState('')
+  const [issue, setIssue] = useState('')
+  const [clientId, setClientId] = useState('')
 
-  const Salvar = () => {
-    if (!titulo || !cliente || !descricao) return 
+  const Save = () => {
+    if (!issue || !device || !clientId) return 
     
-    NovoServico({ titulo, cliente, descricao })
-    setTitulo('')
-    setCliente('')
-    setDescricao('')
-
+    NewService({ device, issue, status: 'open', clientId: Number(clientId) })
+    setDevice('')
+    setIssue('')
+    setClientId('')
   }
 
   return (
-
     <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md max-w-md mx-auto mt-8">
-        <input placeholder="Titulo" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-        <input placeholder="Cliente" value={cliente} onChange={(e) => setCliente(e.target.value)} />
-        <input placeholder="Descrição" value={descricao} onChange={(e) => setDescricao(e.target.value)} />   
-        <button onClick={Salvar}>Adicionar</button>
+        <input placeholder="ID do Cliente" type="number" value={clientId} onChange={(e) => setClientId(e.target.value)} />
+        <input placeholder="Dispositivo" value={device} onChange={(e) => setDevice(e.target.value)} />
+        <input placeholder="Problema" value={issue} onChange={(e) => setIssue(e.target.value)} />   
+        <button onClick={Save}>Adicionar</button>
     </div>
   )
 }
