@@ -2,49 +2,45 @@ import type { Request, Response } from "express";
 import { TarefaService } from "../services/TarefaService";
 
 class TarefaController {
-    async create(req: Request, res: Response) {
+    async createService(req: Request, res: Response) {
         try {
-            const{title} = req.body;
-            
-            const service= new TarefaService();
-            const tarefa = await service.create(title);
+            const { clientId, device, issue, status } = req.body;
+
+            const service = new TarefaService();
+            const tarefa = await service.createService({ clientId: Number(clientId), device, issue, status });
 
             return res.status(201).json(tarefa);
         } catch (error: any) {
-            return res.status(400).json({erro: error.message})
+            return res.status(400).json({ erro: error.message });
         }
     }
 
     async getAll(req: Request, res: Response) {
         const service = new TarefaService();
-        let completed: boolean | undefined = undefined;
-        if (req.query.completed !== undefined) {
-            completed = req.query.completed === 'true';
-        }
-        const tarefas = await service.getAll(completed);
+        const tarefas = await service.getAll();
         return res.status(200).json(tarefas);
     }
 
-    async getById(req:Request, res: Response) {
+    async getById(req: Request, res: Response) {
         try {
-            const id = Number (req.params.id);
+            const id = Number(req.params.id);
 
-            const service= new TarefaService();
-            const tarefa = await service.getById(Number(id));
+            const service = new TarefaService();
+            const tarefa = await service.getById(id);
 
             return res.status(200).json(tarefa);
-        } catch(error:any) {
-            return res.status(404).json({erro: error.message})
+        } catch (error: any) {
+            return res.status(404).json({ erro: error.message });
         }
     }
-    
+
     async atualizarTarefa(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            const { title, completed } = req.body;
+            const { issue, status, device } = req.body;
 
             const service = new TarefaService();
-            const tarefa = await service.atualizarTarefa(Number(id), title, completed);
+            const tarefa = await service.atualizarTarefa(id, issue, status, device);
 
             return res.status(200).json(tarefa);
         } catch (error: any) {

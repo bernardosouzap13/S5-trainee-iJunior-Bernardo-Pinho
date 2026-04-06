@@ -12,9 +12,27 @@ datasource db {
   provider = "mysql"
 }
 
+model Client {
+  id         Int      @id @default(autoincrement())
+  name       String
+  phone      String
+  email      String
+  created_at DateTime @default(now())
+  tasks      Task[]
+}
+
 model Task {
-  id        Int      @id @default(autoincrement())
-  title     String
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  clientId   Int
+  client     Client   @relation(fields: [clientId], references: [id])
+  device     String
+  issue      String
+  status     String
+  created_at DateTime @default(now())
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  senha String
 }

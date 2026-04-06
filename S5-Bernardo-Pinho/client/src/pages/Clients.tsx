@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {getAllClients, deleteClient, createClient} from '../services/clientService';
+import {getAllClients, ClientDelete, createClient} from '../services/clientService';
 import type { Client } from "../types";
 
 const Clients = () => {
@@ -26,7 +26,7 @@ const Clients = () => {
   }
   
   async function handleDelete(id:number) {
-    await deleteClient(id);
+    await ClientDelete(id);
     setClients(prev => prev.filter(c => c.id !== id));
   }
   

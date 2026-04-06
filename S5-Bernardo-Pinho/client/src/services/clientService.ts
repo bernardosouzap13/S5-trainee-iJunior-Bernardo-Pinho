@@ -2,8 +2,8 @@ import { api } from "./api";
 import type {Client, CreateClientData} from '../types';
 
 export async function getAllClients(): Promise<Client[]> {
-    const response = await api.get<{ data: Client[] }>('/clients');
-    return response.data.data
+    const response = await api.get<Client[]>('/clients');
+    return response.data
 }
 
 export async function createClient(data: CreateClientData) : Promise<Client> {
@@ -11,6 +11,6 @@ export async function createClient(data: CreateClientData) : Promise<Client> {
     return response.data
 }
 
-export async function deleteClient(id:number): Promise<void> {
+export async function ClientDelete(id:number): Promise<void> {
     await api.delete(`/clients/${id}`);
 }

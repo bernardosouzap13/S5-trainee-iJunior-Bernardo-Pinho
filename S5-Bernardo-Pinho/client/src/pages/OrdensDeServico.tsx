@@ -1,14 +1,14 @@
 import {useEffect, useState} from 'react'
 import type {Service, CreateServicePropsData} from '../types'
-import {getAllServices, createService, deleteService} from '../services/serviceOrderService'
-import ServiceCard from './ServiceCard'
-import NewServiceForm from './NewServiceForm'
+import {getAll, createService, tarefaDelete} from '../services/serviceOrderService'
+import ServiceCard from '../components/ServiceCard'
+import NewServiceForm from '../components/NewServiceForm'
 
 const OrdensDeServico = () => {
     const[services, setServices] = useState<Service[]>([])
 
     useEffect(() => {
-        getAllServices().then(setServices)
+        getAll().then(setServices)
     }, [])
 
     const handleCreate= async (data:CreateServicePropsData)=> {
@@ -17,7 +17,7 @@ const OrdensDeServico = () => {
     }
 
     const handleDelete=  async (id:number) => {
-        await deleteService(id)
+        await tarefaDelete(id)
         setServices(prev => prev.filter(s => s.id !== id))
     }
 

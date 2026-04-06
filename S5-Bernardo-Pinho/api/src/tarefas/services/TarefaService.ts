@@ -1,69 +1,59 @@
 import { prisma } from "../../config/prismaClient";
 
-const tarefas: Tarefa[] = [];
-
-interface Tarefa {
-    id: number;
-    title: string;
-    completed: boolean;
+interface CreateTarefaData {
+    clientId: number;
+    device: string;
+    issue: string;
+    status: string;
 }
 
 class TarefaService {
-    async create(title: string) {
-        if (!title) {
-            throw new Error("Título é obrigatório");
+    async createService(data: CreateTarefaData) {
+        if (!data.issue || !data.device || !data.clientId) {
+            throw new Error("Campos obrigatórios faltando");
         }
 
-        const novaTarefa = await prisma.task.create({
-            data: {
-                title: title,
-            }
-        });
-        return novaTarefa;
+        return prisma.task.create({ data });
     }
-    
-    async getAll(completed?: boolean) {
-        const where = completed !== undefined ? { completed } : undefined;
-        const allTasks = await prisma.task.findMany({ where });
-        return allTasks;
+
+    async getAll() {
+        return prisma.task.findMany();
     }
 
     async getById(id: number) {
-        const tarefa = await prisma.task.findUnique({where: {id}});
-        
+        const tarefa = await prisma.task.findUnique({ where: { id } });
+
         if (!tarefa) {
             throw new Error("Tarefa não encontrada");
         }
 
-        return { title: tarefa.title, completed: tarefa.completed };
+        return tarefa;
     }
 
-    async atualizarTarefa(id: number, title?: string, completed?: boolean) {
-        const tarefa = await prisma.task.findUnique({where: {id}});
+    async atualizarTarefa(id: number, issue?: string, status?: string, device?: string) {
+        const tarefa = await prisma.task.findUnique({ where: { id } });
 
         if (!tarefa) {
             throw new Error("Tarefa não encontrada");
         }
-        
-        const data: any = {};
-        if (title !== undefined) data.title = title;
-        if (completed !== undefined) data.completed = completed;
 
-        const tarefaAtualizada = await prisma.task.update({where: {id}, data})
-        
-        return tarefaAtualizada;
+        const data: any = {};
+        if (issue !== undefined) data.issue = issue;
+        if (status !== undefined) data.status = status;
+        if (device !== undefined) data.device = device;
+
+        return prisma.task.update({ where: { id }, data });
     }
 
     async tarefaDelete(id: number) {
-        const tarefa = await prisma.task.findUnique({where:{id}});
+        const tarefa = await prisma.task.findUnique({ where: { id } });
 
         if (!tarefa) {
             throw new Error("Tarefa não encontrada");
         }
 
-        const tarefaDeletada = await prisma.task.delete({where: {id}});
+        await prisma.task.delete({ where: { id } });
     }
-
 }
 
-export {TarefaService};
+export { TarefaService };
