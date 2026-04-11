@@ -1,3 +1,4 @@
+import { symlink } from "node:fs";
 import type { User } from "../generated/prisma/client";
 
 declare global {
@@ -6,7 +7,7 @@ declare global {
             PORT: string
             DATABASE_URL: string
             JWT_SECRET: string
-            JWT_EXPIRES_IN: number
+            JWT_EXPIRES_IN: string
             NODE_ENV: 'development' | 'production' | 'test'
         }
     }
