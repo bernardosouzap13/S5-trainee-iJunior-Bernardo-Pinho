@@ -5,7 +5,7 @@ export function PrivateRoute() {
     const { isAuthenticated, isLoading} = useAuth()
 
     if (isLoading) {
-        return <div>Carregando...</div>
+        return <div className="min-h-screen grid place-items-center text-white">Carregando...</div>
     }
 
     if(!isAuthenticated) {

@@ -1,7 +1,9 @@
 import { app } from "./config/expressConfig";
 
-app.listen(3333, () => {
-    console.log(`Servidor rodando na porta 3333`);
+const port = Number(process.env.PORT) || 3000;
+
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 })
 
 if (!process.env.JWT_SECRET) {
@@ -10,3 +12,4 @@ if (!process.env.JWT_SECRET) {
 if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL não definido nas variáveis de ambiente')
 }
+

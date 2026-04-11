@@ -19,7 +19,7 @@ export function Login() {
 
         try {
             await login(email,senha)
-            navigate ('/')
+            navigate('/ordens-de-servico')
         } catch (err: unknown) {
             setErro(err instanceof Error? err.message: 'Erro ao fazer login.')
         } finally {

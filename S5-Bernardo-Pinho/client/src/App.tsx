@@ -14,12 +14,13 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro/>} />
           
           <Route element ={<PrivateRoute/>}>
             <Route element={<Layout />}>
-              <Route path="/" element={<OrdensDeServico />} />
+              <Route path="/ordens-de-servico" element={<OrdensDeServico />} />
               <Route path="/clients" element={<Clients />} />
             </Route>
           </Route>  
